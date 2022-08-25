@@ -13,8 +13,9 @@ import random
 order_api = Blueprint("order_api", __name__)
 
 @order_api.route("/add_order", methods=["POST"])
-@is_admin()
 def add_order():
+    if request.json["isAdmin"] == False:
+        raise ControllerException(message="Access denied")
     user_id = request.json["userId"]
     item_list = request.json["itemList"]
     order_id = random.randint(10000000, 99999999)
@@ -24,7 +25,6 @@ def add_order():
     
 
 @order_api.route("/get_orders", methods=["GET"])
-@is_admin()
 def get_orders():
     orders = order_dao.list_all()
     order_dict = {}
@@ -32,7 +32,7 @@ def get_orders():
         if order.order_id not in order_dict.keys():
             user = user_dao.find_one(User.id == order.user_id)
             item = item_dao.find_one(Item.item_id == order.item_id)
-            order_dict[str(order.order_id)] = {
+            order_dict[order.order_id] = {
                 "orderedAt": order.created_at,
                 "status": order.status,
                 "customer": user.username,
@@ -40,14 +40,15 @@ def get_orders():
             }
         else:
             item = item_dao.find_one(Item.item_id == order.item_id)
-            order_dict[str(order.order_id)]["items"].append({**Item.get_data(item)})
+            order_dict[order.order_id]["items"].append({**Item.get_data(item)})
     return jsonify(order_dict)
 
 
 @order_api.route("/update_order", methods=["POST"])
-@is_admin()
 def update_order():
     data = request.json
+    if request.json["isAdmin"] == False:
+        raise ControllerException(message="Access denied")
     orders = order_dao.find_all(Order.order_id == data["orderId"])
     for order in orders:
         order_data = {**Order.get_data(order)}
@@ -57,12 +58,11 @@ def update_order():
     return jsonify({"orderId": order.order_id})
 
 
-@order_api.route("/user_orders", methods=["GET"])
-def user_orders():
-    user_id = request.json.get("userId")
-    if not user_id:
+@order_api.route("/user_orders/<userId>", methods=["GET"])
+def user_orders(userId):
+    if not userId:
         raise ControllerException(message="Missing userId")
-    orders = order_dao.find_all(Order.user_id == user_id)
+    orders = order_dao.find_all(Order.user_id == userId)
     order_dict = {}
     for order in orders:
         if order.order_id not in order_dict.keys():

@@ -21,8 +21,9 @@ def is_admin():
 
 
 @auth_api.route("/signup", methods=["POST"])
-@is_admin()
 def signup():
+    if request.json["isAdmin"] == False:
+        raise ControllerException(message="Access denied")
     data = request.json
     if not data["username"]:
         raise ControllerException(message="Enter username")
@@ -47,13 +48,11 @@ def login():
     user = user_dao.find_one(User.username == username)
     session["username"] = username
     session["isAdmin"] = user.is_admin
-    return jsonify({"username": user.username, "isAdmin": user.is_admin})
+    return jsonify({"username": user.username, "isAdmin": user.is_admin, "userId": user.id})
 
 
 @auth_api.route("/logout", methods=["POST"])
 def logout():
-    if not session["username"]:
-        raise ControllerException(message="Already logged out")
     session["username"] = None
     session["isAdmin"] = None
     return jsonify({"message":"User logged out"})

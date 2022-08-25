@@ -7,7 +7,8 @@ from flaskr.models import Base
 
 class Order(Base):
     __tablename__ = "order"
-    order_id = Column(BigInteger(), primary_key=True)
+    id = Column(BigInteger(), primary_key=True)
+    order_id = Column(BigInteger)
     user_id = Column(BigInteger, nullable=False)
     item_id = Column(BigInteger, nullable=False)
     status = Column(String)
