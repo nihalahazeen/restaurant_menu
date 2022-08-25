@@ -1,19 +1,34 @@
-from flask import Blueprint, jsonify, request, session
-from flaskr.controllers.exceptions import ControllerException
+from flask import Blueprint, jsonify, request, session, current_app as app
+from flaskr.controllers.exceptions import ControllerException, UnauthorizedException
 from flaskr.models.user import User
 from flaskr.daos.user import user_dao
+from functools import wraps
 
 
 auth_api = Blueprint("auth_api", __name__)
 
+def is_admin():
+    def wrapper(fn):
+        @wraps(fn)
+        def decorator(*args, **kwargs):
+            if app.config["TESTING"]:
+                return fn(*args, **kwargs)
+            if session["isAdmin"] == False:
+                raise UnauthorizedException(message="Access denied, admin only")
+            return fn(*args, **kwargs)
+        return decorator
+    return wrapper
+
+
 @auth_api.route("/signup", methods=["POST"])
+@is_admin()
 def signup():
     data = request.json
+    if not data["username"]:
+        raise ControllerException(message="Enter username")
     user = user_dao.find_one(User.username == data["username"])
     if user:
         raise ControllerException(message="username exists")
-    if not data["username"]:
-        raise ControllerException(message="Enter username")
     password = data["password"]
     confirm_password = data["confirmPassword"]
     if password != confirm_password:

@@ -19,6 +19,15 @@ class BaseDAO:
         return db.session.query(cls.model_cls).filter(base_filter).one_or_none()
 
     @classmethod
+    def find_all(cls, base_filter: Any) -> Base:
+        """
+        Find a model by id
+        """
+        if cls.model_cls is None:
+            raise DAOConfigError()
+        return db.session.query(cls.model_cls).filter(base_filter).all()
+
+    @classmethod
     def create(cls, model: Base, commit: bool = False, flush: bool = False) -> Base:
         """
         Generic for creating models

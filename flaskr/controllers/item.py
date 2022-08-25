@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, request
 from flaskr.models.item import Item
 from flaskr.daos.item import item_dao
-
+from flaskr.controllers.auth import is_admin
 
 item_api = Blueprint("item_api", __name__)
 
 @item_api.route("/add_item", methods=["POST"])
+@is_admin()
 def add_item():
     data = request.json
     item = item_dao.create(Item.from_data(data), commit=True, flush=True)
@@ -13,6 +14,7 @@ def add_item():
 
 
 @item_api.route("/delete_item", methods=["POST"])
+@is_admin()
 def delete_item():
     item_id = request.json["itemId"]
     item = item_dao.find_one(Item.item_id == item_id)
@@ -21,6 +23,7 @@ def delete_item():
 
 
 @item_api.route("/update_item", methods=["POST"])
+@is_admin()
 def update_item():
     data = request.json
     item_id = request.json["itemId"]
