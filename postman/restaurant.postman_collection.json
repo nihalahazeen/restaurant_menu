@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "148bd68d-8021-455a-804d-71bdc31efb49",
+		"name": "restaurant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"nihalahaz2\",\r\n    \"password\":\"123\",\r\n    \"confirmPassword\":\"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\signup",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"nihalaha\",\r\n    \"password\":\"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}\\logout",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"uv\",\r\n    \"price\": 20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\add_item",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"add_item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemId\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\delete_item",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"delete_item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemId\": 3,\r\n    \"name\": \"Shawarma\",\r\n    \"price\": 24\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\update_item",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"update_item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"isAdmin\":true,\r\n    \"userId\": 6,\r\n    \"itemList\": [8,9]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\add_order",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"add_order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": 47198742,\r\n    \"status\":\"Processing\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}\\update_order",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"update_order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getItems",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}\\get_items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"get_items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userOrders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}\\user_orders\\6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user_orders",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}\\get_orders",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"get_orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}\\get_users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"get_users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

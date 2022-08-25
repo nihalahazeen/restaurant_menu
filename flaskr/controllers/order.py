@@ -68,7 +68,7 @@ def user_orders(userId):
         if order.order_id not in order_dict.keys():
             user = user_dao.find_one(User.id == order.user_id)
             item = item_dao.find_one(Item.item_id == order.item_id)
-            order_dict[str(order.order_id)] = {
+            order_dict[order.order_id] = {
                 "orderedAt": order.created_at,
                 "status": order.status,
                 "customer": user.username,
@@ -76,5 +76,5 @@ def user_orders(userId):
             }
         else:
             item = item_dao.find_one(Item.item_id == order.item_id)
-            order_dict[str(order.order_id)]["items"].append({**Item.get_data(item)})
+            order_dict[order.order_id]["items"].append({**Item.get_data(item)})
     return jsonify(order_dict)
